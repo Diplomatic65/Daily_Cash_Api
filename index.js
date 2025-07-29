@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-const waiterRouter = require('./routes/waiterRoute');
+const userRouter = require('./routes/userRoute');
 const transactionRouter = require('./routes/transactionRoute');
 const router = express.Router();
 require('dotenv').config();
@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 });
 
 
-app.use('/api/waiter', waiterRouter);
+app.use('/api/user', userRouter);
 app.use('/api/transaction', transactionRouter);
 
 
