@@ -38,6 +38,7 @@ const userLoginSchema = joi.object({
     .pattern(new RegExp('^[0-9]{6,100}$')) // Only numeric characters
 });
 
+
 const transactionSchema = joi.object({
   waiter: joi.string().required(),
   merchant: joi.number().required(),
@@ -46,8 +47,10 @@ const transactionSchema = joi.object({
   "e-besa": joi.number().required(),
   others: joi.number().required(),
   credit: joi.number().required(),
-  promotion: joi.number().required()
+  promotion: joi.number().required(),
+  open: joi.number().required()
 });
+
 
 module.exports = {
   userSignupSchema,
