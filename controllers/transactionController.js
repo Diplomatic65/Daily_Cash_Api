@@ -166,3 +166,97 @@ exports.getTransaction = async (req, res) => {
 
     
 }
+
+exports.updateTransaction = async (req, res) => {
+    const { waiter, merchant, premier, edahab, "e-besa": eBesa, others, credit, promotion, open } = req.body;
+    const transactionId = req.params.id;
+
+    try {
+        const existingTransaction = await Transaction.findById(transactionId);
+        if (!existingTransaction) {
+            return res.status(404).json({ success: false, message: 'Transaction not found' });
+        }
+
+        // Update fields correctly (include zero values)
+        if (waiter !== undefined) existingTransaction.waiter = waiter;
+        if (merchant !== undefined) existingTransaction.merchant = merchant;
+        if (premier !== undefined) existingTransaction.premier = premier;
+        if (edahab !== undefined) existingTransaction.edahab = edahab;
+        if (eBesa !== undefined) existingTransaction["e-besa"] = eBesa;
+        if (others !== undefined) existingTransaction.others = others;
+        if (credit !== undefined) existingTransaction.credit = credit;
+        if (promotion !== undefined) existingTransaction.promotion = promotion;
+        if (open !== undefined) existingTransaction.open = open;
+
+        const updatedTransaction = await existingTransaction.save();
+
+        const updatedAtObj = new Date(updatedTransaction.updatedAt);
+
+        const updateDate = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Africa/Mogadishu',
+        }).format(updatedAtObj);
+
+        const updateTime = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Africa/Mogadishu',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+        }).format(updatedAtObj);
+
+        res.status(200).json({
+            success: true,
+            message: 'Transaction updated successfully',
+            result: {
+                _id: updatedTransaction._id,
+                waiter: updatedTransaction.waiter,
+                merchant: updatedTransaction.merchant,
+                premier: updatedTransaction.premier,
+                edahab: updatedTransaction.edahab,
+                "e-besa": updatedTransaction["e-besa"],
+                others: updatedTransaction.others,
+                credit: updatedTransaction.credit,
+                promotion: updatedTransaction.promotion,
+                open: updatedTransaction.open,
+                totalAmount:
+                    (updatedTransaction.merchant || 0) +
+                    (updatedTransaction.premier || 0) +
+                    (updatedTransaction.edahab || 0) +
+                    (updatedTransaction["e-besa"] || 0) +
+                    (updatedTransaction.others || 0) +
+                    (updatedTransaction.credit || 0) +
+                    (updatedTransaction.promotion || 0) +
+                    (updatedTransaction.open || 0),
+                updateDate,
+                updateTime,
+            },
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ success: false, message: 'Error updating Transaction' });
+    }
+};
+
+
+exports.deleteTransaction = async (req, res) => {
+    const transactionId = req.params.id;  // Get the 'id' from the URL parameter
+
+    try {
+        // Find the transaction by ID and delete it
+        const result = await Transaction.findByIdAndDelete(transactionId);
+
+        if (!result) {
+            return res.status(404).json({ success: false, message: 'Transaction not found' });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Transaction deleted successfully',
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ success: false, message: 'Error deleting Transaction' });
+    }
+
+
+};
