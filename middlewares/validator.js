@@ -52,8 +52,23 @@ const transactionSchema = joi.object({
 });
 
 
+const receptionSchema = joi.object({
+  merchant: joi.number().required(),
+  Evc: joi.number().required(),
+  premier: joi.number().required(),
+  edahab: joi.number().required(),
+  "e-besa": joi.number().required(),
+  others: joi.number().required(),
+  credit: joi.number().required(),
+  deposit: joi.number().required(),
+  refund: joi.number().required(),
+  discount: joi.number().required(),
+});
+
+
 module.exports = {
   userSignupSchema,
   userLoginSchema,
-  transactionSchema
+  transactionSchema,
+  receptionSchema
 };

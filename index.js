@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/userRoute');
 const transactionRouter = require('./routes/transactionRoute');
+const receptionRouter = require('./routes/receptionRoute');
 const router = express.Router();
 require('dotenv').config();
 const app = express();
@@ -24,7 +25,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 
 app.use('/api/user', userRouter);
 app.use('/api/transaction', transactionRouter);
-
+app.use('/api/reception', receptionRouter);
 
 // Root endpoint
 app.get('/', (req, res) => {

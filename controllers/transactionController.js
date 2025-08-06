@@ -3,7 +3,7 @@ const { transactionSchema } = require('../middlewares/validator');
 
 
 exports.createTransaction = async (req, res) => {
-    let {waiter, merchant, premier, edahab, others, credit, promotion, open } = req.body;
+    let {waiter, merchant, premier, edahab, others, credit, promotion, open} = req.body;
     let eBesa = req.body["e-besa"]; // "-" destructuring ma oggola
 
     try {
@@ -260,3 +260,4 @@ exports.deleteTransaction = async (req, res) => {
 
 
 };
+
