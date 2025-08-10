@@ -53,6 +53,7 @@ const transactionSchema = joi.object({
 
 
 const receptionSchema = joi.object({
+  receptionname: joi.string().required(),
   merchant: joi.number().required(),
   Evc: joi.number().required(),
   premier: joi.number().required(),

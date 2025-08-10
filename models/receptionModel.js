@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const receptionSchema = new mongoose.Schema({
-
+  receptionname: { type: String, required: true },
   merchant: { type: Number, required: true },
   premier: { type: Number, required: true },
   edahab: { type: Number, required: true },
